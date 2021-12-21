@@ -3,17 +3,17 @@ import styled, { ThemedStyledProps } from "styled-components";
 import Image from "next/image";
 import { Button } from "@chakra-ui/react";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Router from "next/router";
 type navProps = {
   isOpen: boolean;
 };
 const Nav = styled.div<navProps>`
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     position: fixed;
     background-color: black;
     width: 100%;
-    padding-bottom: ${(props) => (props.isOpen ? "9em" : "5em")};
+    padding-bottom: ${(props) => (props.isOpen ? "9em" : "7em")};
     .logo {
       position: fixed;
       top: 2em !important;
@@ -21,11 +21,27 @@ const Nav = styled.div<navProps>`
       -webkit-filter: invert(1) !important ;
       filter: invert(1) !important ;
     }
+    .content,
+    .mobile,
     .login {
-      display: none;
+      color: white;
+      background-color: black;
+      ${(props) => (!props.isOpen ? "display: none;" : "display: block;")}
+      position: relative;
+      width: 100%;
+      top: 4rem;
+      margin-top: 1rem;
+      text-align: center;
     }
-    .content {
-      display: none;
+    .login:hover {
+      background-color: white;
+      color: black;
+    }
+    .login {
+      position: fixed;
+      width: 25%;
+      left: 38%;
+      top: 21.75%;
     }
     .dropdown {
       position: fixed;
@@ -39,21 +55,32 @@ const Nav = styled.div<navProps>`
       height: 30px;
       width: 30px;
     }
+    .disabled {
+      pointer-events: none;
+      color: gray;
+    }
   }
 
-  @media (min-width: 501px) {
+  @media (min-width: 600px) {
     position: fixed;
     padding: 2em;
     background-color: black;
     color: white;
     width: 100%;
     .logo {
+      position: relative;
       -webkit-filter: invert(1);
       filter: invert(1);
+      top: 0.5rem;
+    }
+    .login:hover {
+      background-color: white;
+      color: black;
     }
     .content {
       position: relative;
-      margin-left: 2rem;
+      bottom: 1rem;
+      margin-left: 5rem;
       cursor: pointer;
     }
     .content .disabled {
@@ -78,12 +105,15 @@ type Pages = { currentPage: "home" };
 type currentPagesF = {
   currentPage: "home" | "about" | "dashboard";
   content: string;
+  mobile: boolean;
 };
-function CurrentPage({ currentPage, content }: currentPagesF) {
+function CurrentPage({ currentPage, content, mobile }: currentPagesF) {
   return (
     <span
       className={
-        currentPage === content.toLowerCase() ? "content disabled" : "content"
+        currentPage === content.toLowerCase()
+          ? `content disabled ${mobile === true ? "mobile" : ""}`
+          : `content ${mobile === true ? "mobile" : ""}`
       }
       onClick={() => {
         Router.push(`/${content.toLowerCase()}`);
@@ -112,6 +142,13 @@ function Dropdown({ onClick }: { onClick: () => void }) {
 }
 export default function NavBar({ currentPage }: Pages) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mobile, setMobile] = useState<boolean>(false);
+  useEffect(() => {
+    window.innerWidth < 600 ? setMobile(true) : setMobile(false);
+    window.addEventListener("resize", () => {
+      window.innerWidth < 600 ? setMobile(true) : setMobile(false);
+    });
+  }, [mobile]);
   return (
     <>
       <Head>
@@ -128,9 +165,17 @@ export default function NavBar({ currentPage }: Pages) {
           height="30px"
           alt="logo"
         />
-        <CurrentPage content="Home" currentPage={currentPage} />
-        <CurrentPage content="Dashboard" currentPage={currentPage} />
-        <CurrentPage content="About" currentPage={currentPage} />
+        <CurrentPage mobile={mobile} content="Home" currentPage={currentPage} />
+        <CurrentPage
+          mobile={mobile}
+          content="Dashboard"
+          currentPage={currentPage}
+        />
+        <CurrentPage
+          mobile={mobile}
+          content="About"
+          currentPage={currentPage}
+        />
         <Dropdown onClick={() => setIsOpen(!isOpen)} />
         <Button className="login" bgColor={"white"} color="black">
           Login
