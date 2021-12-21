@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import styled, { ThemedStyledProps } from "styled-components";
 import Image from "next/image";
 import { Button } from "@chakra-ui/react";
@@ -15,7 +16,7 @@ const Nav = styled.div<navProps>`
     padding-bottom: ${(props) => (props.isOpen ? "9em" : "5em")};
     .logo {
       position: fixed;
-      top: 2em;
+      top: 2em !important;
       left: 2em;
       -webkit-filter: invert(1) !important ;
       filter: invert(1) !important ;
@@ -120,7 +121,7 @@ export default function NavBar({ currentPage }: Pages) {
         ></link>
       </Head>
       <Nav isOpen={isOpen}>
-        <Image
+        <img
           className="logo"
           src="/favicon.ico"
           width="30px"
