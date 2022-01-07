@@ -8,4 +8,7 @@ module.exports = {
       "media.discordapp.net",
     ],
   },
+  env: {
+    API_URL: process.env.API_URL,
+  },
 };

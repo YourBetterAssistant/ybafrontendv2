@@ -22,6 +22,7 @@ export default function Ybahead({
         property="og:url"
         content={window ? window : "https://yourbetterassistant.me"}
       ></meta>
+      <meta property="theme-color" content="#40E5ED"></meta>
       <title>{`YourBetterAssistant - ${documentPage}`}</title>
     </Head>
   );
