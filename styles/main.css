@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap");
+.main {
+  font-family: "Nunito", sans-serif;
+  font-size: 30px;
+  display: block;
+  float: center;
+  margin: 25px;
+  text-align: center;
+  position: relative;
+}
+@keyframes comeInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes comeInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.questions {
+  font-family: Nunito, sans-serif;
+  font-size: 35px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+.answers {
+  font-family: Nunito, sans-serif;
+  font-size: 25px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  width: 40%;
+}
+.title {
+  font-family: Nunito, sans-serif;
+  font-size: 35px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+div.featureBox {
+  background-color: #2dd690;
+  border-radius: 10px;
+  width: 250px;
+  height: 500px;
+  float: left;
+  /*Have a margin of 20px on the left and right of each box*/
+  margin: 20px;
+  margin-bottom: 100px;
+  margin-left: 120px;
+  font-family: Nunito, sans-serif;
+  text-align: center;
+}
+div.featureBox:hover {
+  /*Increase in size by 10% smoothly*/
+  transform: scale(1.1);
+}
+div.featureBox h1.title {
+  margin-top: 10px;
+  font-size: 20px;
+  display: grid;
+  justify-content: center;
+}
+.ftitle {
+  /*Position in the center of the page witha 10px margin*/
+  display: grid;
+  position: relative;
+  justify-content: center;
+  margin: 30px;
+  font-family: Nunito, sans-serif;
+  font-size: 40px;
+}
+@media screen and (max-width: 600px) {
+  .ftitle {
+    font-size: 30px;
+  }
+}
+div.page {
+  position: relative;
+  display: grid;
+}

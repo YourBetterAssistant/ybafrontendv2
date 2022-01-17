@@ -1,0 +1,45 @@
+.footer {
+  /*Appear at bottom of the page without using position:fixed*/
+  display: flex;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  background-color: black;
+  color: white;
+  height: 200px;
+  float: left;
+  width: 100%;
+}
+.footer-copyright {
+  /*position at vertical center of the div*/
+  display: grid;
+  align-items: center;
+  margin-left: 30px;
+}
+@media screen and (min-width: 1000px) {
+  .footer a {
+    position: relative;
+    display: flex;
+    margin: 40px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    float: center;
+    left: 500px;
+    flex-direction: column;
+    /* Align at 50% of the width*/
+  }
+}
+@media screen and (max-width: 1000px) {
+  .footer a {
+    position: relative;
+    display: flex;
+    margin: 40px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    float: center;
+    flex-direction: column;
+  }
+}

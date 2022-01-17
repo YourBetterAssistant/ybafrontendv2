@@ -8,7 +8,5 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res
-    .status(200)
-    .json({ pageURL: req.headers.host, message: "API NOT IMPLEMENTED" });
+  res.status(200).json({ pageURL: req.headers.host });
 }

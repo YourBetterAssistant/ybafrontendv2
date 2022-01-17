@@ -1,0 +1,45 @@
+.guilds-edit {
+  margin-left: 20px;
+  font-size: 20px;
+}
+.guilds-list {
+  display: block;
+  float: left;
+  margin: 20px;
+  margin-bottom: 30px;
+}
+.guild-item {
+  align-items: left;
+  text-align: center;
+  cursor: pointer;
+  /*Make a rectangle lying on it's side*/
+  margin: 40px;
+  border-radius: 10px;
+  background-color: #2dd690;
+  height: 100px;
+  text-align: left;
+}
+.guild-name {
+  margin-left: 100px;
+  position: relative;
+  margin-top: -50px;
+  /*Make text 2px lower*/
+  bottom: -35px;
+}
+.guild-icon {
+  position: relative;
+  /*Appear circle*/
+  border-radius: 50%;
+  /*Make image smaller*/
+  width: 50px;
+  height: 50px;
+  /*Center the image vertically*/
+  top: 20px;
+  margin-left: 10px;
+}
+.guild-item:hover {
+  /*cast shadow*/
+  box-shadow: 0 0 40px #2dd690;
+  /*increase size by 4%*/
+  transform: scale(1.04);
+}

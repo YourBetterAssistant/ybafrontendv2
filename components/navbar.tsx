@@ -1,10 +1,42 @@
 import { Button, Image } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
 export default function NavBar(): JSX.Element {
+  const history = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  function isLoggedIn() {
-    return new TypeError("Not Implemented");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  async function signOut() {
+    await axios
+      .get(`https://api.yourbetterassistant.me/api/auth/signout`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          window.location.reload();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
+  async function getUser() {
+    await axios
+      .get(`https://api.yourbetterassistant.me/api/user`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setIsLoggedIn(true);
+        }
+      })
+      .catch((err) => {
+        setIsLoggedIn(false);
+      });
+  }
+  useEffect(() => {
+    getUser();
+  });
   return (
     <nav className={isOpen ? "topnav responsive" : "topnav"}>
       <link
@@ -17,20 +49,25 @@ export default function NavBar(): JSX.Element {
         src="/favicon.ico"
         height="75px"
         width="77px"
+        onClick={() => history.push("/")}
       ></Image>
       <a>
         <br></br>
       </a>
       <a href="/dashboard">Dashboard</a>
       <a href="/statistics">Stats</a>
-      <a href="/support">Support Server</a>
+      <a href="https://dsc.gg/ybasupportserver">Support Server</a>
       <Button
         className="login"
         onClick={() => {
-          console.log("IN WORKS");
+          isLoggedIn
+            ? signOut()
+            : history.push(
+                `https://api.yourbetterassistant.me/api/auth/discord`
+              );
         }}
       >
-        Login
+        {isLoggedIn ? "Sign Out" : "Login"}
       </Button>
       <a
         href="javascript:void(0);"

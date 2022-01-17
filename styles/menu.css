@@ -1,0 +1,50 @@
+.rules {
+  /*center text*/
+  text-align: center;
+  color: white;
+  align-content: center;
+  width: 100%;
+  /*Align text to the center*/
+  align-self: center;
+}
+.rules p.item {
+  /*add a border*/
+  margin: 30px;
+  padding: 20px;
+  background-color: #4384ce;
+  align-self: center;
+  text-align: center;
+  /*Make the border have curved edges*/
+  border-radius: 10px;
+}
+.rules p.item-collapsed {
+  /*add a border*/
+  border-radius: 10px;
+  border: 1px solid;
+  margin: 30px;
+  padding: 20px;
+  padding-bottom: 100px;
+  background-color: #4384ce;
+  align-self: left;
+  text-align: center;
+}
+.rules p.item-collapsed:hover,
+.rules p.item:hover {
+  /*Add shadow*/
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(32, 153, 223, 0.5);
+  /* Increase in size by 4%*/
+  transform: scale(1.04);
+}
+.rules p.item,
+.rules p.item-collapsed {
+  margin: 70px;
+}
+.choices {
+  text-align: center;
+  margin: 40px;
+  /* Add space between text and buttons in the div*/
+  padding: 10px;
+  align-self: center;
+  float: center;
+}
