@@ -1,4 +1,4 @@
-import { Button, Image } from "@chakra-ui/react";
+import { Button, Image, Link } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -51,12 +51,12 @@ export default function NavBar(): JSX.Element {
         width="77px"
         onClick={() => history.push("/")}
       ></Image>
-      <a>
+      <Link>
         <br></br>
-      </a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/statistics">Stats</a>
-      <a href="https://dsc.gg/ybasupportserver">Support Server</a>
+      </Link>
+      <Link href="/dashboard">Dashboard</Link>
+      <Link href="/statistics">Stats</Link>
+      <Link href="https://dsc.gg/ybasupportserver">Support Server</Link>
       <Button
         className="login"
         onClick={() => {
@@ -69,7 +69,7 @@ export default function NavBar(): JSX.Element {
       >
         {isLoggedIn ? "Sign Out" : "Login"}
       </Button>
-      <a
+      <Link
         href="javascript:void(0);"
         className="icon"
         onClick={() => {
@@ -77,7 +77,7 @@ export default function NavBar(): JSX.Element {
         }}
       >
         <i className="fa fa-bars fa-lg"></i>
-      </a>
+      </Link>
     </nav>
   );
 }
