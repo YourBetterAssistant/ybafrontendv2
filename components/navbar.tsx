@@ -54,9 +54,18 @@ export default function NavBar(): JSX.Element {
       <Link>
         <br></br>
       </Link>
-      <Link href="/dashboard">Dashboard</Link>
-      <Link href="/statistics">Stats</Link>
-      <Link href="https://dsc.gg/ybasupportserver">Support Server</Link>
+      <Link href="/dashboard" style={{ textDecoration: "none" }}>
+        Dashboard
+      </Link>
+      <Link href="/statistics" style={{ textDecoration: "none" }}>
+        Stats
+      </Link>
+      <Link
+        href="https://dsc.gg/ybasupportserver"
+        style={{ textDecoration: "none" }}
+      >
+        Support Server
+      </Link>
       <Button
         className="login"
         onClick={() => {
@@ -71,6 +80,7 @@ export default function NavBar(): JSX.Element {
       </Button>
       <Link
         href="javascript:void(0);"
+        style={{ textDecoration: "none" }}
         className="icon"
         onClick={() => {
           setIsOpen(!isOpen);

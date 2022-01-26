@@ -43,7 +43,7 @@ export default function PageID() {
       })
       .catch((err) => {
         console.log(err.response.data);
-        router.push("/");
+        router.push("/dashboard");
       });
   }, [id, router]);
 

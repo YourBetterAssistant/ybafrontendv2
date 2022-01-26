@@ -43,3 +43,31 @@
   /*increase size by 4%*/
   transform: scale(1.04);
 }
+div.channels-box {
+  /*Make a rectangle lying on it's side*/
+  margin: 40px;
+  border-radius: 10px;
+  background-color: rgb(49, 47, 54);
+  height: 80px;
+  text-align: left;
+  color: rgb(141, 156, 151);
+  /* position text 2px lower */
+}
+p.channels-name {
+  /*Make text 2px lower*/
+  position: relative;
+  bottom: -30px;
+  right: -100px;
+}
+div.channels-page {
+  height: 500px;
+  background-color: #36393e;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+div.channels-box:hover {
+  /*cast shadow*/
+  box-shadow: 0 0 40px rgb(75, 72, 83);
+  /*increase size by 4%*/
+  transform: scale(1.04);
+}

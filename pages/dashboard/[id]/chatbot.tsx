@@ -1,6 +1,9 @@
 import { Button } from "@chakra-ui/react";
 import axios, { AxiosResponse } from "axios";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { Suspense } from "react";
+
 import { useEffect, useState } from "react";
 import Ybahead from "../../../components/head";
 import NavBar from "../../../components/navbar";
@@ -9,29 +12,37 @@ export default function Chatbot() {
   const router = useRouter();
   const [url, setURL] = useState<string>();
   const [guild, setGuild] = useState<Guild | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [channels, setChannels] = useState<Channel[]>();
   const [disabled, setDisabled] = useState<boolean>(false);
+  const [channel, setChannel] = useState<string | null>(null);
 
   useEffect(() => {
     getURL().then((res: { pageURL: string; message?: string }) => {
       setURL(res.pageURL);
+      getGuild(router.query.id)
+        .then((res) => {
+          setGuild(res.data);
+          getChannels(router.query.id)
+            .then((res) => {
+              setChannels(res.data);
+            })
+            .catch((err) => {
+              console.log(err);
+              getChannels(router.query.id)
+                .then((res) => {
+                  setChannels(res.data);
+                })
+                .catch((err) => {
+                  router.push("/dashboard");
+                });
+            });
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+          router.push("/dashboard");
+        });
     });
-    getGuild(router.query.id)
-      .then((res) => {
-        setGuild(res.data);
-        getUser()
-          .then((res) => {
-            setUser(res.data);
-          })
-          .catch((err) => {
-            router.push("/");
-          });
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        router.push("/");
-      });
-  }, [router]);
+  }, []);
   async function Disable(guild: string) {
     axios.defaults.withCredentials = true;
     await axios
@@ -101,6 +112,30 @@ export default function Chatbot() {
           >
             Disable
           </Button>
+          <br />
+          <p>Channel ID</p>
+          <div className="channels-page">
+            <Suspense fallback={<p>Loading</p>}>
+              {channels
+                ? channels.map((channel) => (
+                    <div key={channel.id} className="channels-box">
+                      <p
+                        className="channels-name"
+                        onClick={() => setChannel(channel.id)}
+                      >{`#${channel.name}`}</p>
+                    </div>
+                  ))
+                : null}
+            </Suspense>
+          </div>
+
+          {channel
+            ? [
+                <Button bgColor={"green.100"} key="submit">
+                  Submit
+                </Button>,
+              ]
+            : null}
         </div>
       </div>
     </>
@@ -115,11 +150,6 @@ async function getGuild(
       withCredentials: true,
     }
   );
-}
-async function getUser() {
-  return await axios.get(`https://api.yourbetterassistant.me/api/user`, {
-    withCredentials: true,
-  });
 }
 async function getURL() {
   const url = await axios.get("/api");
@@ -141,3 +171,31 @@ type User = {
   email: string;
   guilds: Guild[];
 };
+type overWrite = {
+  id: string;
+  type: number;
+  allow: string;
+  deny: string;
+};
+type Channel = {
+  id: string;
+  type: number;
+  guild_id: string;
+  position: number;
+  permissions_overwrites: overWrite[];
+  name: string;
+  topic: string;
+  nsfw: boolean;
+  last_message_id: string | null;
+  bitrate: number;
+  user_limit: number;
+  rate_limit_per_user: number;
+  recepitents: User[];
+};
+async function getChannels(id: string | string[] | undefined) {
+  return await axios({
+    method: "GET",
+    url: `https://api.yourbetterassistant.me/api/user/guilds/${id}/channels/text`,
+    withCredentials: true,
+  });
+}

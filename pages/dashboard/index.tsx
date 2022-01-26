@@ -115,3 +115,6 @@ export default function Menu() {
     </>
   );
 }
+export function getStaticProps() {
+  return { props: {} };
+}
