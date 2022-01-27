@@ -75,3 +75,7 @@ div.selected-channel {
   /*make background color lighter*/
   background-color: rgb(75, 72, 83);
 }
+div.error-server {
+  /*Align center horizontally*/
+  text-align: center;
+}

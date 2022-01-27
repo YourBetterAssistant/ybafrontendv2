@@ -3,7 +3,6 @@
   text-align: center;
   color: white;
   align-content: center;
-  width: 100%;
   /*Align text to the center*/
   align-self: center;
 }
@@ -11,11 +10,11 @@
   /*add a border*/
   margin: 30px;
   padding: 20px;
-  background-color: #4384ce;
-  align-self: center;
-  text-align: center;
+  background-color: #4c43ce;
   /*Make the border have curved edges*/
   border-radius: 10px;
+  /*Center the text based on the width*/
+  align-self: center;
 }
 .rules p.item-collapsed {
   /*add a border*/

@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Footer from "../../../components/footer";
 import Ybahead from "../../../components/head";
 import NavBar from "../../../components/navbar";
 const editableSettings = ["Chatbot", "Prefix", "Levelling"];
@@ -33,7 +34,9 @@ export default function PageID() {
       <NavBar />
       <div className="page">
         <div className="main">
-          <h1 className="title">Dashboard For {guild?.name}</h1>
+          <h1 className="title">
+            Dashboard For {guild ? guild?.name : "Loading..."}
+          </h1>
         </div>
         <div>
           <div className="rules">
@@ -51,6 +54,7 @@ export default function PageID() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

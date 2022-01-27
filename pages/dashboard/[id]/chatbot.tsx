@@ -108,25 +108,27 @@ export default function Chatbot() {
       <NavBar />
       <div className="page">
         <div className="main">
-          <h1 className="title">Chatbot For {guild?.name}</h1>
+          <h1 className="title">
+            Chatbot For {guild ? guild?.name : "Loading..."}
+          </h1>
           <div className="channels-page">
-            <Suspense fallback={<p>Loading</p>}>
-              {channels
-                ? channels.map((c) => (
-                    <div
-                      key={c.id}
-                      className={`channels-box ${
-                        channel === c.id ? "selected-channel" : ""
-                      }`}
-                    >
-                      <p
-                        className={`channels-name`}
-                        onClick={() => setChannel(c.id)}
-                      >{`#${c.name}`}</p>
-                    </div>
-                  ))
-                : null}
-            </Suspense>
+            {channels?.length !== 0 ? (
+              channels?.map((c) => (
+                <div
+                  key={c.id}
+                  className={`channels-box ${
+                    channel === c.id ? "selected-channel" : ""
+                  }`}
+                >
+                  <p
+                    className={`channels-name`}
+                    onClick={() => setChannel(c.id)}
+                  >{`#${c.name}`}</p>
+                </div>
+              ))
+            ) : (
+              <p style={{ color: "white" }}>Loading Channels</p>
+            )}
           </div>
           {channel
             ? [

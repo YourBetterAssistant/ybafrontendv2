@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Ybahead from "../../components/head";
 import NavBar from "../../components/navbar";
-import { Image } from "@chakra-ui/react";
+import { Button, Image } from "@chakra-ui/react";
 import Footer from "../../components/footer";
 type Guild = {
   id: string;
@@ -85,30 +85,59 @@ export default function Menu() {
           <br />
         </div>
         <div className="guilds-edit">
-          <span>Current Editable Servers: {guilds?.length}</span>
+          <span>
+            Current Editable Servers: {guilds ? guilds?.length : "Loading"}
+          </span>
           <br />
           <br />
           <span>Choose A Server:</span>
         </div>
         <div className="guilds-list">
-          {guilds?.map((guild) => (
-            <div
-              key={guild.id}
-              className="guild-item"
-              onClick={() => {
-                history.push(`/dashboard/${guild.id}`);
-              }}
-            >
-              <Image
-                src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}`}
-                alt="Guild Icon"
-                width="50px"
-                height="50px"
-                className="guild-icon"
-              ></Image>
-              <p className="guild-name">{guild.name}</p>
+          {guilds ? (
+            guilds?.length !== 0 ? (
+              guilds?.map((guild) => (
+                <div
+                  key={guild.id}
+                  className="guild-item"
+                  onClick={() => {
+                    history.push(`/dashboard/${guild.id}`);
+                  }}
+                >
+                  <Image
+                    src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}`}
+                    alt="Guild Icon"
+                    width="50px"
+                    height="50px"
+                    className="guild-icon"
+                  ></Image>
+                  <p className="guild-name">{guild.name}</p>
+                </div>
+              ))
+            ) : (
+              //center the div
+              <div className="error-server">
+                <p>You Have No Editable Servers</p>
+                <Button
+                  marginBottom={"5"}
+                  onClick={() => history.push("https://dsc.gg/betterassistant")}
+                >
+                  Add The Bot Today
+                </Button>
+              </div>
+            )
+          ) : (
+            <div className="error-server">
+              <p>Loading Servers...</p>
+              <br />
+              <br />
+              <br />
+              <br />
             </div>
-          ))}
+          )}
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
       </div>
       <Footer />

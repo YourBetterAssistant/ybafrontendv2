@@ -4,6 +4,7 @@ import "../styles/footer.css";
 import "../styles/dashboard.css";
 import "../styles/menu.css";
 import "../styles/globals.css";
+import "../styles/loader.css";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 function MyApp({ Component, pageProps }: AppProps) {
