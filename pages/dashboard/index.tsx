@@ -115,6 +115,14 @@ export default function Menu() {
     </>
   );
 }
-export function getStaticProps() {
-  return { props: {} };
+export async function getServerSideProps({ req, res }: any) {
+  //no cache
+  res.setHeader(
+    "Cache-Control",
+    "no-cache, no-store, max-age=0, must-revalidate"
+  );
+
+  return {
+    props: {},
+  };
 }

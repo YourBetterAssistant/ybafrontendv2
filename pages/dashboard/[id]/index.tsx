@@ -3,27 +3,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Ybahead from "../../../components/head";
 import NavBar from "../../../components/navbar";
-type Guild = {
-  id: string;
-  name: string;
-  icon: string;
-  owner: boolean;
-  permissions: number;
-  features: string[];
-};
-type User = {
-  _id: string;
-  discordId: string;
-  discordTag: string;
-  avatar: string;
-  email: string;
-  guilds: Guild[];
-};
 const editableSettings = ["Chatbot", "Prefix", "Levelling"];
 export default function PageID() {
   const router = useRouter();
   const [guild, setGuild] = useState<Guild | null>(null);
-  const [user, setUser] = useState<User | null>(null);
   const [url, setURL] = useState<string>();
   const id = router.query.id;
   useEffect(() => {
@@ -33,13 +16,6 @@ export default function PageID() {
     getGuild(id)
       .then((res) => {
         setGuild(res.data);
-        getUser()
-          .then((res) => {
-            setUser(res.data);
-          })
-          .catch((err) => {
-            router.push("/");
-          });
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -96,4 +72,15 @@ async function getUser() {
 async function getURL() {
   const url = await axios.get("/api");
   return url.data;
+}
+export async function getServerSideProps({ req, res }: any) {
+  //no cache
+  res.setHeader(
+    "Cache-Control",
+    "no-cache, no-store, max-age=0, must-revalidate"
+  );
+
+  return {
+    props: {},
+  };
 }

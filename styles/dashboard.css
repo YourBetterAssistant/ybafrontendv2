@@ -71,3 +71,7 @@ div.channels-box:hover {
   /*increase size by 4%*/
   transform: scale(1.04);
 }
+div.selected-channel {
+  /*make background color lighter*/
+  background-color: rgb(75, 72, 83);
+}

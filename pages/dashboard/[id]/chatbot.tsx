@@ -13,9 +13,14 @@ export default function Chatbot() {
   const [url, setURL] = useState<string>();
   const [guild, setGuild] = useState<Guild | null>(null);
   const [channels, setChannels] = useState<Channel[]>();
-  const [disabled, setDisabled] = useState<boolean>(false);
   const [channel, setChannel] = useState<string | null>(null);
-
+  const [disable, setDisable] = useState<boolean>(false);
+  const Disabled: Channel = {
+    id: "disable",
+    name: "Disabled",
+    type: 0,
+    guild_id: router.query.id ? router.query.id.toString() : "",
+  };
   useEffect(() => {
     getURL().then((res: { pageURL: string; message?: string }) => {
       setURL(res.pageURL);
@@ -23,14 +28,14 @@ export default function Chatbot() {
         .then((res) => {
           setGuild(res.data);
           getChannels(router.query.id)
-            .then((res) => {
-              setChannels(res.data);
+            .then((res: AxiosResponse<Channel[]>) => {
+              setChannels([...res.data, Disabled]);
             })
             .catch((err) => {
               console.log(err);
               getChannels(router.query.id)
                 .then((res) => {
-                  setChannels(res.data);
+                  setChannels([...res.data, Disabled]);
                 })
                 .catch((err) => {
                   router.push("/dashboard");
@@ -43,43 +48,55 @@ export default function Chatbot() {
         });
     });
   }, []);
-  async function Disable(guild: string) {
+  async function enable(guild: Guild | null, channel: string) {
     axios.defaults.withCredentials = true;
-    await axios
-      .delete(
-        "https://api.yourbetterassistant.me/api/user/guilds/features/chatbot",
-        {
-          withCredentials: true,
-          data: {
-            guildID: guild,
+    setDisable(true);
+    if (channel === "disable") {
+      await axios
+        .delete(
+          "https://api.yourbetterassistant.me/api/user/guilds/features/chatbot",
+          {
+            withCredentials: true,
+            data: {
+              guildID: guild?.id,
+            },
+          }
+        )
+        .catch((err) => {
+          if (err.toJSON().status === 403) {
+            router.push("/");
+          }
+        });
+    } else {
+      await axios
+        .post(
+          "https://api.yourbetterassistant.me/api/user/guilds/features/chatbot",
+          {
+            guildID: guild?.id,
+            channelID: channel,
           },
-        }
-      )
-      .catch((err) => {
-        if (err.toJSON().status === 403) {
-          router.push("/");
-        }
-      });
-    return setDisabled(false);
-  }
-  async function enable(guild: Guild) {
-    axios.defaults.withCredentials = true;
-    await axios
-      .post(
-        "https://api.yourbetterassistant.me/api/user/guilds/features/chatbot",
-        {
-          guildID: guild.id,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .catch((err) => {
-        if (err.toJSON().status === 403) {
-          router.push("/");
-        }
-      });
-    return setDisabled(true);
+          {
+            withCredentials: true,
+          }
+        )
+        .catch(async (err) => {
+          if (err.toJSON().status === 403) {
+            router.push("/");
+          } else if (err.toJSON().status === 400) {
+            await axios.put(
+              "https://api.yourbetterassistant.me/api/user/guilds/features/chatbot",
+              {
+                guildID: guild?.id,
+                channelID: channel,
+              },
+              {
+                withCredentials: true,
+              }
+            );
+          }
+        });
+    }
+    setDisable(false);
   }
   return (
     <>
@@ -92,46 +109,35 @@ export default function Chatbot() {
       <div className="page">
         <div className="main">
           <h1 className="title">Chatbot For {guild?.name}</h1>
-        </div>
-        <div className="choices">
-          <p>Do you want to enable or disable chatbot?</p>
-          <Button
-            bgColor={"green"}
-            style={{ margin: "20px" }}
-            disabled={disabled}
-          >
-            Enable
-          </Button>
-          <Button
-            bgColor={"red"}
-            onClick={() => {
-              guild ? Disable(guild.id) : console.log("error");
-              setDisabled(true);
-            }}
-            disabled={disabled}
-          >
-            Disable
-          </Button>
-          <br />
-          <p>Channel ID</p>
           <div className="channels-page">
             <Suspense fallback={<p>Loading</p>}>
               {channels
-                ? channels.map((channel) => (
-                    <div key={channel.id} className="channels-box">
+                ? channels.map((c) => (
+                    <div
+                      key={c.id}
+                      className={`channels-box ${
+                        channel === c.id ? "selected-channel" : ""
+                      }`}
+                    >
                       <p
-                        className="channels-name"
-                        onClick={() => setChannel(channel.id)}
-                      >{`#${channel.name}`}</p>
+                        className={`channels-name`}
+                        onClick={() => setChannel(c.id)}
+                      >{`#${c.name}`}</p>
                     </div>
                   ))
                 : null}
             </Suspense>
           </div>
-
           {channel
             ? [
-                <Button bgColor={"green.100"} key="submit">
+                <Button
+                  bgColor={"green.100"}
+                  key="submit"
+                  onClick={async () => {
+                    await enable(guild, channel);
+                  }}
+                  disabled={disable}
+                >
                   Submit
                 </Button>,
               ]
@@ -181,16 +187,7 @@ type Channel = {
   id: string;
   type: number;
   guild_id: string;
-  position: number;
-  permissions_overwrites: overWrite[];
   name: string;
-  topic: string;
-  nsfw: boolean;
-  last_message_id: string | null;
-  bitrate: number;
-  user_limit: number;
-  rate_limit_per_user: number;
-  recepitents: User[];
 };
 async function getChannels(id: string | string[] | undefined) {
   return await axios({
@@ -198,4 +195,15 @@ async function getChannels(id: string | string[] | undefined) {
     url: `https://api.yourbetterassistant.me/api/user/guilds/${id}/channels/text`,
     withCredentials: true,
   });
+}
+export async function getServerSideProps({ req, res }: any) {
+  //no cache
+  res.setHeader(
+    "Cache-Control",
+    "no-cache, no-store, max-age=0, must-revalidate"
+  );
+
+  return {
+    props: {},
+  };
 }
