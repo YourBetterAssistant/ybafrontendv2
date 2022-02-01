@@ -36,7 +36,7 @@ export default function NavBar(): JSX.Element {
   }
   useEffect(() => {
     getUser();
-  });
+  }, []);
   return (
     <nav className={isOpen ? "topnav responsive" : "topnav"}>
       <link

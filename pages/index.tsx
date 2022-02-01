@@ -8,16 +8,10 @@ import axios from "axios";
 import NavBar from "../components/navbar";
 import Footer from "../components/footer";
 const { get } = axios;
-type effect = {
-  window: Window;
-};
 async function getURL() {
   const url = await get("/api");
   return url.data;
 }
-type navprops = {
-  stringLength: number;
-};
 const Home: FC<NextPage> = () => {
   const [url, setURL] = useState<string>();
   const [offline, setOffline] = useState<boolean>(false);
@@ -32,7 +26,7 @@ const Home: FC<NextPage> = () => {
     window.addEventListener("online", () => {
       setOffline(false);
     });
-  });
+  }, []);
   return (
     <>
       <Ybahead

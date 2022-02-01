@@ -6,23 +6,6 @@ import Ybahead from "../../components/head";
 import NavBar from "../../components/navbar";
 import { Button, Image } from "@chakra-ui/react";
 import Footer from "../../components/footer";
-type Guild = {
-  id: string;
-  name: string;
-  icon: string;
-  owner: boolean;
-  permissions: number;
-  features: string[];
-};
-type User = {
-  _id: string;
-  discordId: string;
-  discordTag: string;
-  avatar: string;
-  email: string;
-  guilds: Guild[];
-};
-
 export default function Menu() {
   const [url, setURL] = useState<string>();
   const [user, setUser] = useState<User | null>(null);

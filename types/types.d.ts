@@ -14,3 +14,9 @@ type User = {
   email: string;
   guilds: Guild[];
 };
+type Channel = {
+  id: string;
+  type: number;
+  guild_id: string;
+  name: string;
+};

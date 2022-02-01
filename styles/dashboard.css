@@ -58,6 +58,7 @@ p.channels-name {
   position: relative;
   bottom: -30px;
   right: -100px;
+  font-size: 20px;
 }
 div.channels-page {
   height: 500px;
@@ -78,4 +79,32 @@ div.selected-channel {
 div.error-server {
   /*Align center horizontally*/
   text-align: center;
+}
+div.prefix-content {
+  /*Align center horizontally*/
+  text-align: center;
+  margin: 40px;
+}
+div.prefix-content button.button {
+  /* appear in the center of the page horiztonally  */
+  margin-left: 20px;
+  margin-top: 40px;
+  color: white;
+  margin-right: 20px;
+}
+input::placeholder {
+  color: black;
+  opacity: 0.5;
+}
+div.level-content {
+  /*Align center horizontally*/
+  text-align: center;
+  margin: 50px;
+}
+
+button.level-button {
+  margin-left: 20px;
+  margin-top: 40px;
+  color: white;
+  margin-right: 20px;
 }

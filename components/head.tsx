@@ -24,6 +24,8 @@ export default function Ybahead({
       ></meta>
       <meta property="theme-color" content="#40E5ED"></meta>
       <title>{`YourBetterAssistant - ${documentPage}`}</title>
+      <meta name="description" content={pageDescription} />
+      <link rel="manifest" href="manifest.json" />
     </Head>
   );
 }

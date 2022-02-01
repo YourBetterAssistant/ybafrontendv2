@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { Suspense } from "react";
 
 import { useEffect, useState } from "react";
+import Footer from "../../../components/footer";
 import Ybahead from "../../../components/head";
 import NavBar from "../../../components/navbar";
 
@@ -101,8 +102,8 @@ export default function Chatbot() {
   return (
     <>
       <Ybahead
-        documentPage="Dashboard Menu"
-        pageDescription="Dashboard Page Of YourBetterAssistant"
+        documentPage="Chatbot Dashboard"
+        pageDescription="Chatbot Dashboard Page Of YourBetterAssistant"
         window={url + router.asPath}
       />
       <NavBar />
@@ -146,6 +147,7 @@ export default function Chatbot() {
             : null}
         </div>
       </div>
+      <Footer />
     </>
   );
 }
@@ -163,34 +165,7 @@ async function getURL() {
   const url = await axios.get("/api");
   return url.data;
 }
-type Guild = {
-  id: string;
-  name: string;
-  icon: string;
-  owner: boolean;
-  permissions: number;
-  features: string[];
-};
-type User = {
-  _id: string;
-  discordId: string;
-  discordTag: string;
-  avatar: string;
-  email: string;
-  guilds: Guild[];
-};
-type overWrite = {
-  id: string;
-  type: number;
-  allow: string;
-  deny: string;
-};
-type Channel = {
-  id: string;
-  type: number;
-  guild_id: string;
-  name: string;
-};
+
 async function getChannels(id: string | string[] | undefined) {
   return await axios({
     method: "GET",
