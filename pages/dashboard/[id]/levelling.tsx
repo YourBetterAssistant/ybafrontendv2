@@ -10,7 +10,7 @@ export default function Level() {
   const router = useRouter();
   const [url, setURL] = useState<string>();
   const [guild, setGuild] = useState<Guild>();
-  const [prefix, setPrefix] = useState<string>();
+  const [error, setError] = useState<string | null>();
 
   async function getURL() {
     const url = await axios.get("/api");
@@ -26,11 +26,12 @@ export default function Level() {
       }
     );
   }
-  async function postPrefix(prefix: string) {
+  async function postLevel(levelling: boolean) {
+    setError(null);
     const id = router.query.id;
-    if (prefix === defaultPrefix) {
+    if (!levelling) {
       await axios.delete(
-        "https://api.yourbetterassistant.me/api/user/guilds/features/prefix",
+        "https://api.yourbetterassistant.me/api/user/guilds/features/levellingEnabled",
         {
           withCredentials: true,
           data: {
@@ -41,29 +42,20 @@ export default function Level() {
     } else {
       await axios
         .post(
-          `https://api.yourbetterassistant.me/api/user/guilds/features/prefix`,
+          `https://api.yourbetterassistant.me/api/user/guilds/features/levellingEnabled`,
           {
-            prefix,
+            enabled: levelling,
             guildID: id,
           },
           {
             withCredentials: true,
           }
         )
-        .catch((err) => {
+        .catch(async (err) => {
           if (err.toJSON().status === 400) {
-            axios.put(
-              `https://api.yourbetterassistant.me/api/user/guilds/features/prefix`,
-              {
-                prefix,
-                guildID: id,
-              },
-              {
-                withCredentials: true,
-              }
-            );
+            setError("Levelling Is Already Enabled");
           } else {
-            router.push("/dashbaord");
+            router.push("/dashboard");
           }
         });
     }
@@ -96,12 +88,23 @@ export default function Level() {
           <br />
           <br />
           <div className="level-content">
-            <Button className="level-button" bgColor={"green.300"}>
+            <Button
+              className="level-button"
+              bgColor={"green.300"}
+              onClick={() => postLevel(true)}
+            >
               Enable
             </Button>
-            <Button className="level-button" bgColor={"red.400"}>
+            <Button
+              className="level-button"
+              bgColor={"red.400"}
+              onClick={() => postLevel(false)}
+            >
               Disable
             </Button>
+            <br />
+            <br />
+            <span className="error">{error}</span>
           </div>
         </div>
       </div>

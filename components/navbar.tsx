@@ -21,21 +21,21 @@ export default function NavBar(): JSX.Element {
       });
   }
   async function getUser() {
-    await axios
-      .get(`https://api.yourbetterassistant.me/api/user`, {
-        withCredentials: true,
-      })
+    return await axios.get(`https://api.yourbetterassistant.me/api/user`, {
+      withCredentials: true,
+    });
+  }
+  useEffect(() => {
+    getUser()
       .then((res) => {
         if (res.status === 200) {
           setIsLoggedIn(true);
         }
       })
-      .catch((err) => {
+      .catch(() => {
         setIsLoggedIn(false);
+        return null;
       });
-  }
-  useEffect(() => {
-    getUser();
   }, []);
   return (
     <nav className={isOpen ? "topnav responsive" : "topnav"}>
@@ -79,7 +79,7 @@ export default function NavBar(): JSX.Element {
         {isLoggedIn ? "Sign Out" : "Login"}
       </Button>
       <Link
-        href="javascript:void(0);"
+        href="#"
         style={{ textDecoration: "none" }}
         className="icon"
         onClick={() => {
