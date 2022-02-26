@@ -57,7 +57,7 @@ export default function NavBar(): JSX.Element {
       <Link href="/dashboard" style={{ textDecoration: "none" }}>
         Dashboard
       </Link>
-      <Link href="/statistics" style={{ textDecoration: "none" }}>
+      <Link href="/stats" style={{ textDecoration: "none" }}>
         Stats
       </Link>
       <Link

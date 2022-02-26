@@ -5,6 +5,7 @@ import "../styles/dashboard.css";
 import "../styles/menu.css";
 import "../styles/globals.css";
 import "../styles/loader.css";
+import "../styles/stats.css";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { useEffect } from "react";

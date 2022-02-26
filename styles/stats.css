@@ -1,0 +1,67 @@
+h1.title.command {
+  /* Center Text*/
+  text-align: center;
+}
+div.commands.content {
+  /* Center Text*/
+  text-align: center;
+  border-radius: 25px;
+  /*Make green box*/
+  background-color: #1abd5e;
+  padding: 5px;
+  margin: 10px;
+  padding-bottom: 40px;
+  padding-top: 40px;
+  cursor: pointer;
+  transition: all 0.5s ease-out;
+}
+div.commands.content::after {
+  /*Place at left*/
+  position: absolute;
+  right: 20px;
+}
+div.commands.content.clicked {
+  /*Make green box*/
+  cursor: pointer;
+  padding-bottom: 100px;
+  transition: all 0.5s ease-in-out;
+}
+div.stats-commands {
+  overflow-y: scroll;
+  height: 500px;
+}
+.hidden {
+  display: none;
+  transition: all 2s ease-in-out;
+}
+.show {
+  transition: all 2s ease-in-out;
+  float: left;
+  margin: 5px;
+  /* Make text make a new line*/
+  white-space: nowrap;
+}
+span.bold {
+  font-weight: bold;
+}
+div.interaction.content {
+  /* Center Text*/
+  text-align: center;
+  border-radius: 25px;
+  /*Make green box*/
+  background-color: #bd2d1a;
+  padding: 5px;
+  margin: 10px;
+  padding-bottom: 40px;
+  padding-top: 40px;
+  cursor: pointer;
+  transition: all 0.5s ease-out;
+}
+div.interaction.content.clicked {
+  cursor: pointer;
+  padding-bottom: 100px;
+  transition: all 0.5s ease-in-out;
+}
+p.general-stats {
+  margin: 10px;
+}
