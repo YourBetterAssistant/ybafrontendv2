@@ -48,16 +48,29 @@ const interactionOption = {
   11: "Attachment",
 };
 type InteractionStat = [string, interaction];
-const Stats: FC<{
-  stats: [{ commands: CommmandStat[]; interaction: InteractionStat[] }];
-}> = ({ stats }) => {
+const Stats: FC = () => {
   const [url, setURL] = useState<string>();
   const [clicked, setClicked] = useState<string | boolean>(false);
+  const [stats, setStats] = useState<
+    [{ commands: CommmandStat[]; interaction: InteractionStat[] }] | []
+  >([]);
+  async function getStats() {
+    const stats = await axios.get<
+      [
+        {
+          commands: CommmandStat[];
+          interaction: InteractionStat[];
+        }
+      ]
+    >("https://api.yourbetterassistant.me/api/bot/stats");
+    setStats(stats.data);
+  }
   const { asPath } = useRouter();
   useEffect(() => {
     getURL().then((res: { pageURL: string; message?: string }) => {
       setURL(res.pageURL);
     });
+    getStats();
   }, []);
   return (
     <>
@@ -76,15 +89,15 @@ const Stats: FC<{
           <div className="stats">
             <h1 className="title command">Brief:</h1>
             <p className="general-stats">
-              Command Size - {stats[0].commands.length}
+              Command Size - {stats[0]?.commands?.length}
             </p>
             <p className="general-stats">
-              Slash Command Size - {stats[0].interaction.length}
+              Slash Command Size - {stats[0]?.interaction.length}
             </p>
             <p className="general-stats">Operating System - Ubuntu 20.04 LTS</p>
             <h1 className="title command">Commands</h1>
             <div className="stats-commands">
-              {stats[0].commands.map(([name, command]) => (
+              {stats[0]?.commands.map(([name, command]) => (
                 <div
                   className={`commands content${
                     clicked == name ? " clicked" : ""
@@ -123,7 +136,7 @@ const Stats: FC<{
             </div>
             <h1 className="title command">Slash Commands</h1>
             <div className="stats-commands">
-              {stats[0].interaction
+              {stats[0]?.interaction
                 .filter((c) => c[1].guild !== true)
                 .map(([name, interaction]) => (
                   <div
@@ -165,20 +178,5 @@ const Stats: FC<{
     </>
   );
 };
-export async function getStaticProps() {
-  const stats = await axios.get<
-    [
-      {
-        commands: CommmandStat[];
-        interactions: InteractionStat[];
-      }
-    ]
-  >("https://api.yourbetterassistant.me/api/bot/stats");
 
-  return {
-    props: {
-      stats: stats.data,
-    },
-  };
-}
 export default Stats;
