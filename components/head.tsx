@@ -27,6 +27,7 @@ export default function Ybahead({
       <title>{`YourBetterAssistant - ${documentPage}`}</title>
       <meta name="description" content={pageDescription} />
       <link rel="manifest" href="manifest.json" />
+      <script src="/heat.js" defer={true}></script>
     </Head>
   );
 }
