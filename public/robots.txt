@@ -1,6 +1,5 @@
 User-agent: *
-Allow: / 
+Allow: /
+Allow: /stats
+Disallow: /dashboard
 Disallow: /dashboard/
-Disallow: /dashbaord/*
-Disallow: /dashbaord/*/*
-Disallow: /statistics
