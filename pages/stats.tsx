@@ -48,29 +48,20 @@ const interactionOption = {
   11: "Attachment",
 };
 type InteractionStat = [string, interaction];
-const Stats: FC = () => {
+const Stats: FC<{ stats: string }> = ({ stats: statsRaw }) => {
   const [url, setURL] = useState<string>();
   const [clicked, setClicked] = useState<string | boolean>(false);
-  const [stats, setStats] = useState<
-    [{ commands: CommmandStat[]; interaction: InteractionStat[] }] | []
-  >([]);
-  async function getStats() {
-    const stats = await axios.get<
-      [
-        {
-          commands: CommmandStat[];
-          interaction: InteractionStat[];
-        }
-      ]
-    >("https://api.yourbetterassistant.me/api/bot/stats");
-    setStats(stats.data);
-  }
+  const stats: [
+    {
+      commands: CommmandStat[];
+      interaction: InteractionStat[];
+    }
+  ] = JSON.parse(statsRaw);
   const { asPath } = useRouter();
   useEffect(() => {
     getURL().then((res: { pageURL: string; message?: string }) => {
       setURL(res.pageURL);
     });
-    getStats();
   }, []);
   return (
     <>
