@@ -177,6 +177,7 @@ export async function getStaticProps() {
       method: "GET",
     })
   ).text();
+  console.log(res);
   return {
     props: {
       stats: res,
