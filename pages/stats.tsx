@@ -180,3 +180,15 @@ const Stats: FC = () => {
 };
 
 export default Stats;
+export async function getStaticProps() {
+  const res = await (
+    await fetch("https://api.yourbetterassistant.me/api/bot/stats", {
+      method: "GET",
+    })
+  ).json();
+  return {
+    props: {
+      stats: res,
+    },
+  };
+}
