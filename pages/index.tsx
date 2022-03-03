@@ -76,3 +76,9 @@ const Home: FC<NextPage> = () => {
 };
 
 export default Home;
+
+export function getStaticProps() {
+  return {
+    props: {},
+  };
+}
